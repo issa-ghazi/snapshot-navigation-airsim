@@ -1,0 +1,10 @@
+run,world,route,alt_m,footprint_m,step_m,arc_n,arc_span_deg,heading_mode,stop_ratio,outcome,n_steps,n_captures,captures_per_step,path_len_m,progress_frac,s_max_m,xtrack_mean_m,xtrack_max_m,xtrack_sum_m,loc_hit_5m_pct,loc_fail_20m_pct,heading_err_mean_deg,heading_err_max_deg,gaffin_ratio_median,backtrack_steps,wall_time_min
+innenstadt_alt0060m_compass,sim,route_s,60.0,120.0,10.0,7,45.0,compass,,goal,63,442,7.02,630.0,0.986,619.6,2.83,10.75,178.3,93.7,0.0,4.98,7.93,0.6014,0,15.8
+innenstadt_alt0100m_compass,sim,route_s,100.0,200.0,10.0,7,45.0,compass,,goal,62,435,7.02,620.0,0.984,618.4,1.86,4.2,115.1,79.0,0.0,5.82,8.93,0.5909,0,16.8
+innenstadt_alt0140m_compass,sim,route_s,140.0,280.0,10.0,7,45.0,compass,,goal,62,435,7.02,620.0,0.984,618.1,2.54,6.43,157.4,80.6,0.0,5.9,8.93,0.5607,0,15.5
+nordpark_alt0060m_compass,sim,route_nordpark,60.0,120.0,10.0,7,45.0,compass,,max_steps,126,883,7.01,1260.0,0.006,3.9,38.01,42.63,4789.8,0.0,100.0,54.59,143.0,0.7762,58,30.8
+nordpark_alt0100m_compass,sim,route_nordpark,100.0,200.0,10.0,7,45.0,compass,,goal,62,435,7.02,620.0,0.984,618.0,2.32,6.06,143.9,90.3,0.0,5.18,8.2,0.6488,0,15.5
+nordpark_alt0140m_compass,sim,route_nordpark,140.0,280.0,10.0,7,45.0,compass,,goal,63,442,7.02,630.0,0.991,622.4,3.1,6.68,195.0,84.1,0.0,4.92,8.94,0.6463,0,16.6
+sudbrack_alt0060m_compass,sim,route_sudbrack,60.0,120.0,10.0,7,45.0,compass,,max_steps,126,883,7.01,1260.0,0.276,173.2,11.07,14.07,1395.3,46.8,46.8,76.89,168.26,0.7872,53,31.2
+sudbrack_alt0100m_compass,sim,route_sudbrack,100.0,200.0,10.0,7,45.0,compass,,goal,64,449,7.02,640.0,0.991,622.6,4.99,10.71,319.6,71.9,0.0,6.33,41.06,0.7252,0,17.4
+sudbrack_alt0140m_compass,sim,route_sudbrack,140.0,280.0,10.0,7,45.0,compass,,goal,64,449,7.02,640.0,0.992,623.4,4.52,10.7,289.3,73.4,0.0,5.37,9.91,0.6759,0,16.8

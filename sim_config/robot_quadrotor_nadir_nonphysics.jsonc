@@ -1,0 +1,130 @@
+{
+  // Based on the quadrotor example configuration of Project AirSim
+  // (MIT License); physics, cameras and exposure adapted for this study.
+  //
+  // Repeat-phase robot: kinematic camera carrier (non-physics) so that
+  // Robot.set_pose() places it exactly at each route waypoint, as Gaffin's
+  // agent is placed on the image grid. No controller, no actuators.
+  //
+  // DownCamera geometry (see evaluate_ridf.py docstring):
+  //   sensor FOV 90 deg  ->  capture FOV 2*atan(sqrt(2)*tan(45 deg)) = 109.4712 deg
+  //   sensor crop 640 px ->  capture edge ceil(640*sqrt(2)) = 906 px
+  // The central 640 px square of the 906 px / 109.47 deg frame is, in the
+  // pinhole model, identical to a 640 px / 90 deg frame (focal length 320 px
+  // in both). The extra margin makes the frame rotation-safe for the RIDF.
+  //
+  // Exposure: min-brightness == max-brightness disables auto exposure (see
+  // docs/sensors/camera_capture_settings.md). Adjust BOTH values together if
+  // the first frames are too dark/bright; never leave them unequal.
+  "physics-type": "non-physics",
+  "links": [
+    {
+      "name": "Frame",
+      "collision": {
+        "enabled": false
+      },
+      "visual": {
+        "geometry": {
+          "type": "unreal_mesh",
+          "name": "/Drone/Quadrotor1"
+        }
+      }
+    },
+    {
+      "name": "Prop_FL",
+      "visual": { "geometry": { "type": "unreal_mesh", "name": "/Drone/Propeller" } }
+    },
+    {
+      "name": "Prop_FR",
+      "visual": { "geometry": { "type": "unreal_mesh", "name": "/Drone/Propeller" } }
+    },
+    {
+      "name": "Prop_RL",
+      "visual": { "geometry": { "type": "unreal_mesh", "name": "/Drone/Propeller" } }
+    },
+    {
+      "name": "Prop_RR",
+      "visual": { "geometry": { "type": "unreal_mesh", "name": "/Drone/Propeller" } }
+    }
+  ],
+  "joints": [
+    { "id": "Frame_Prop_FL", "origin": { "xyz": "0.253 -0.253 -0.01", "rpy": "0 0 0" }, "type": "fixed", "parent-link": "Frame", "child-link": "Prop_FL", "axis": "0 0 1" },
+    { "id": "Frame_Prop_FR", "origin": { "xyz": "0.253 0.253 -0.01",  "rpy": "0 0 0" }, "type": "fixed", "parent-link": "Frame", "child-link": "Prop_FR", "axis": "0 0 1" },
+    { "id": "Frame_Prop_RL", "origin": { "xyz": "-0.253 -0.253 -0.01","rpy": "0 0 0" }, "type": "fixed", "parent-link": "Frame", "child-link": "Prop_RL", "axis": "0 0 1" },
+    { "id": "Frame_Prop_RR", "origin": { "xyz": "-0.253 0.253 -0.01", "rpy": "0 0 0" }, "type": "fixed", "parent-link": "Frame", "child-link": "Prop_RR", "axis": "0 0 1" }
+  ],
+  "sensors": [
+    {
+      // Viewport camera. Cesium streams tiles for the frustum of the camera
+      // that drives the viewport, not for the DownCamera, so this one looks
+      // nadir too; otherwise black, diamond-shaped tile gaps appear in the
+      // DownCamera frames. Streaming only, never captured.
+      "id": "Chase",
+      "type": "camera",
+      "enabled": true,
+      "parent-link": "Frame",
+      "capture-interval": 0.03,
+      "capture-settings": [
+        {
+          "image-type": 0,
+          "width": 1280,
+          "height": 720,
+          "fov-degrees": 120,
+          "capture-enabled": false,
+          "streaming-enabled": true,
+          "pixels-as-float": false,
+          "compress": false,
+          "target-gamma": 2.5
+        }
+      ],
+      "gimbal": {
+        "lock-roll": true,
+        "lock-pitch": true,
+        "lock-yaw": false
+      },
+      "origin": {
+        "xyz": "0.0 0.0 -3.0",
+        "rpy": "0 -1.5708 0"
+      }
+    },
+    {
+      "id": "DownCamera",
+      "type": "camera",
+      "enabled": true,
+      "parent-link": "Frame",
+      "capture-interval": 0.05,
+      "capture-settings": [
+        {
+          "image-type": 0, // RGB scene: rotation-safe capture, see header
+          "width": 906,
+          "height": 906,
+          "fov-degrees": 109.4712,
+          "motion-blur-amount": 0.0,
+          "capture-enabled": true,
+          "streaming-enabled": false,
+          "pixels-as-float": false,
+          "compress": false,
+          "target-gamma": 2.5,
+          "auto-exposure-min-brightness": 1.0,
+          "auto-exposure-max-brightness": 1.0
+        },
+        {
+          "image-type": 1, // depth planar: vertical distance at nadir; used
+                           // by capture_repeat.py to measure ground level
+                           // (p95 = street level) inside the 90 deg footprint
+          "width": 256,
+          "height": 256,
+          "fov-degrees": 90,
+          "capture-enabled": true,
+          "streaming-enabled": false,
+          "pixels-as-float": true,
+          "compress": false
+        }
+      ],
+      "origin": {
+        "xyz": "0 0.0 0.0",
+        "rpy": "0 -1.5708 0"
+      }
+    }
+  ]
+}

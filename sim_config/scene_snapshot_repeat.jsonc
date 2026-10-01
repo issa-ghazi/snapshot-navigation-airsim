@@ -1,0 +1,42 @@
+{
+  // Repeat-phase scene: one non-physics robot that is positioned by
+  // Robot.set_pose() (no flight controller).
+  //
+  // home-geo-point is the geodetic position AirSim assigns to NED (0,0,0).
+  // It MUST be identical to the CesiumGeoreference actor's Origin
+  // Latitude / Longitude / Height in the Unreal level, otherwise AirSim's
+  // geo functions and the streamed tiles disagree. capture_repeat.py and
+  // recapitulate_route.py do their own lat/lon -> NED conversion (exact
+  // WGS84 ECEF -> ENU at this origin) and receive the same origin on the
+  // command line (--origin-lat/--origin-lon/--origin-h); keep all three
+  // places in sync.
+  "id": "SceneSnapshotRepeat",
+  "actors": [
+    {
+      "type": "robot",
+      "name": "Drone1",
+      "origin": {
+        "xyz": "0.0 0.0 -150.0",   // start well above any building; teleported anyway
+        "rpy": "0 0 0"
+      },
+      "robot-config": "robot_quadrotor_nadir_nonphysics.jsonc"
+    }
+  ],
+  "clock": {
+    "type": "steppable",
+    "step-ns": 3000000,
+    "real-time-update-rate": 3000000,
+    "pause-on-start": false
+  },
+  "home-geo-point": {
+    "latitude": 52.040111,      // CesiumGeoreference Origin Latitude (confirmed)
+    "longitude": 8.495097,      // CesiumGeoreference Origin Longitude (confirmed)
+    "altitude": 800.0           // CesiumGeoreference Origin Height (confirmed, ellipsoidal)
+  },
+  "segmentation": {
+    "initialize-ids": true,
+    "ignore-existing": false,
+    "use-owner-name": true
+  },
+  "scene-type": "UnrealNative"
+}
