@@ -1,0 +1,7 @@
+# Python 3.13.14; versions used for the thesis.
+# The Project AirSim client is installed separately from its checkout (README, Section 4).
+numpy==2.5.0
+pillow==12.2.0
+pyproj==3.7.2
+matplotlib==3.11.0
+requests==2.34.2
